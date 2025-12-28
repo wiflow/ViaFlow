@@ -190,7 +190,35 @@ public class ViaFlowCommon {
         }
     }
 
-public void onDisconnect() {        this.currentConnection = null;        this.serverHasViaVersion = false;        this.detectedServerBrand = null;    }    /**     * Called when server brand is received. Checks for ViaVersion presence.     */    public void onServerBrandReceived(String brand) {        this.detectedServerBrand = brand;        String lowerBrand = brand.toLowerCase();        if (lowerBrand.contains("viaversion") ||            lowerBrand.contains("viabackwards") ||            lowerBrand.contains("viarewind") ||            lowerBrand.contains("vialegacy")) {            this.serverHasViaVersion = true;            addon.logger().warn("ViaVersion detected on server! Brand: " + brand);            addon.logger().warn("Double translation may cause issues. Consider setting ViaFlow to NATIVE.");        }    }    public boolean serverHasViaVersion() {        return serverHasViaVersion;    }    public String getDetectedServerBrand() {        return detectedServerBrand;    }
+    public void onDisconnect() {
+        this.currentConnection = null;
+        this.serverHasViaVersion = false;
+        this.detectedServerBrand = null;
+    }
+
+    /**
+     * Called when server brand is received. Checks for ViaVersion presence.
+     */
+    public void onServerBrandReceived(String brand) {
+        this.detectedServerBrand = brand;
+        String lowerBrand = brand.toLowerCase();
+        if (lowerBrand.contains("viaversion") ||
+            lowerBrand.contains("viabackwards") ||
+            lowerBrand.contains("viarewind") ||
+            lowerBrand.contains("vialegacy")) {
+            this.serverHasViaVersion = true;
+            addon.logger().warn("ViaVersion detected on server! Brand: " + brand);
+            addon.logger().warn("Double translation may cause issues. Consider setting ViaFlow to NATIVE.");
+        }
+    }
+
+    public boolean serverHasViaVersion() {
+        return serverHasViaVersion;
+    }
+
+    public String getDetectedServerBrand() {
+        return detectedServerBrand;
+    }
 
     public ProtocolVersion getTargetVersion() {
         ViaFlowConfiguration.ProtocolVersionSetting setting =
