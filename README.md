@@ -5,7 +5,6 @@ A LabyMod 4 addon that integrates ViaVersion protocol translation, allowing you 
 ## Features
 
 - **Cross-Version Connectivity**: Connect to servers running older or newer Minecraft versions
-- **Auto-Detect Mode**: Automatically detect and adapt to server version
 - **Version Selection**: Manually select target server version
 - **F3 Debug Display**: Show protocol version information in debug screen
 - **Full ViaVersion Suite**: Includes ViaVersion, ViaBackwards, ViaRewind, and ViaLegacy
@@ -39,7 +38,7 @@ A LabyMod 4 addon that integrates ViaVersion protocol translation, allowing you 
 Access ViaFlow settings through LabyMod's addon settings:
 
 - **Enable ViaFlow**: Toggle protocol translation
-- **Target Version**: Select server version or use Auto Detect
+- **Target Version**: Select server version (Native uses client version)
 - **Show Version in F3**: Display version info in debug screen
 - **Verify Session (Old Versions)**: Authentication for pre-1.7 servers
 - **BetaCraft Authentication**: Support for classic servers
