@@ -1,5 +1,4 @@
-# ViaFlow
-
+# ViaFlow [![CodeFactor](https://www.codefactor.io/repository/github/wiflow/viaflow/badge)](https://www.codefactor.io/repository/github/wiflow/viaflow)
 A LabyMod 4 addon that integrates ViaVersion protocol translation, allowing you to connect to Minecraft servers running any version from 1.8.9 to 1.21.x.
 
 ## Features
