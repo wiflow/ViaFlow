@@ -1,0 +1,33 @@
+{
+  "viaflow.name": "ViaFlow",
+  "viaflow.description": "Verbinde dich mit jeder Minecraft-Serverversion mithilfe der ViaVersion-Protokollübersetzung",
+
+  "viaflow.settings.enabled.name": "ViaFlow aktivieren",
+  "viaflow.settings.enabled.description": "ViaFlow-Protokollübersetzung aktivieren oder deaktivieren",
+
+  "viaflow.settings.protocol.name": "Protokoll-Einstellungen",
+
+  "viaflow.settings.targetVersion.name": "Zielversion",
+  "viaflow.settings.targetVersion.description": "Die Serverversion, als die verbunden werden soll. Automatische Erkennung passt sich automatisch der Serverversion an.",
+
+  "viaflow.settings.showVersionInF3.name": "Version in F3 anzeigen",
+  "viaflow.settings.showVersionInF3.description": "Protokollversionsinformationen im F3-Debug-Bildschirm anzeigen",
+
+  "viaflow.settings.showVersionInTabList.name": "Version in Tabliste anzeigen",
+  "viaflow.settings.showVersionInTabList.description": "Zielversion in der Spieler-Tabliste anzeigen",
+
+  "viaflow.settings.advanced.name": "Erweiterte Einstellungen",
+
+  "viaflow.settings.verifySessionInOldVersions.name": "Sitzung überprüfen (Alte Versionen)",
+  "viaflow.settings.verifySessionInOldVersions.description": "Sitzung überprüfen bei Verbindung zu Servern älter als 1.7",
+
+  "viaflow.settings.allowBetaCraftAuth.name": "BetaCraft-Authentifizierung",
+  "viaflow.settings.allowBetaCraftAuth.description": "BetaCraft MP-Pass-Authentifizierung für klassische Server erlauben",
+
+  "viaflow.version.auto_detect": "Automatische Erkennung",
+
+  "viaflow.message.version_set": "Zielversion gesetzt auf: %s",
+  "viaflow.message.reconnect": "Neu verbinden um Versionsänderung anzuwenden",
+  "viaflow.message.translation_active": "Protokollübersetzung aktiv: %s -> %s",
+  "viaflow.message.no_translation": "Keine Übersetzung nötig (native Version)"
+}

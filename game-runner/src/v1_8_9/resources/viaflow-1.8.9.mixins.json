@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.wiflow.viaflow.v1_8_9.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinNetworkManager",
+    "MixinNetworkManager_5",
+    "MixinGuiMultiplayer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

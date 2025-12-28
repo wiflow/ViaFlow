@@ -1,0 +1,57 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LabyMod
+run/
+logs/
+
+# Compiled
+*.class
+*.jar
+*.war
+
+# Backup files
+*.bak
+*.bak2
+*.backup
+
+# Log files
+*.log
+stdout.txt
+stderr.txt
+
+# Local scripts
+*.bat
+!gradlew.bat
+
+# ViaFlow config (root level only)
+/ViaFlow/
+
+# Reference libraries
+ViaVersion/
+ViaMCP/
+ViaForge/
+ViaFabric/
+ViaFabricPlus/
+ViaLoader/
+ViaBackwards/
+ViaRewind/
+ViaLegacy/
+labymod4-api-wiki/
+
+# Test
+test-servers/
