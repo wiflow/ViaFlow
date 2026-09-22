@@ -27,6 +27,7 @@ The version resets to native every time the game starts.
 
 - The server list pings servers with your client version, so servers on other versions show up as incompatible there. Joining them works.
 - With a 1.21.4 or newer client, pick block does nothing on servers running 1.21.3 or older.
+- With a 1.16.5 or older client on a 1.17 or newer server, blocks below y 0 and above y 255 are not shown.
 - The first start after installing needs an internet connection: LabyMod downloads ViaVersion, ViaBackwards and ViaRewind from repo.viaversion.com.
 
 ## Building
