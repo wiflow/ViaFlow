@@ -22,7 +22,6 @@ public class ViaFlowAddon extends LabyAddon<ViaFlowConfiguration> {
         this.labyAPI().commandService().register(new ViaFlowCommand(this));
         this.labyAPI().hudWidgetRegistry().register(new ViaFlowHudWidget());
         this.registerListener(new DisconnectListener());
-        // Version selector button is added via MixinJoinMultiplayerScreen
     }
 
     @Override
