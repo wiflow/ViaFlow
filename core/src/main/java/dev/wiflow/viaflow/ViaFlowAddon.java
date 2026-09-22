@@ -2,6 +2,7 @@ package dev.wiflow.viaflow;
 
 import dev.wiflow.viaflow.commands.ViaFlowCommand;
 import dev.wiflow.viaflow.listener.ConnectionListener;
+import dev.wiflow.viaflow.listener.ServerListListener;
 import dev.wiflow.viaflow.translation.ViaRuntime;
 import dev.wiflow.viaflow.version.TargetVersions;
 import dev.wiflow.viaflow.widgets.ViaFlowHudWidget;
@@ -30,6 +31,7 @@ public class ViaFlowAddon extends LabyAddon<ViaFlowConfiguration> {
         this.registerSettingCategory();
         this.registerCommand(new ViaFlowCommand(this));
         this.registerListener(new ConnectionListener(this));
+        this.registerListener(new ServerListListener(this));
         this.labyAPI().hudWidgetRegistry().register(new ViaFlowHudWidget());
     }
 

@@ -30,6 +30,9 @@
         "name": "ViaFlow Version",
         "server": "Server"
       }
+    },
+    "multiplayer": {
+      "version": "Server Version"
     }
   }
 }

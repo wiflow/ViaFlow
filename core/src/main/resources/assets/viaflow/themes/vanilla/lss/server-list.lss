@@ -1,0 +1,10 @@
+.viaflow-version-row {
+  .viaflow-version-label {
+    alignment-y: center;
+    top: 50%;
+  }
+
+  .viaflow-version-dropdown {
+    height: 20;
+  }
+}
