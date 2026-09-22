@@ -1,9 +1,5 @@
 import net.labymod.labygradle.common.extension.LabyModAnnotationProcessorExtension.ReferenceType
 
-repositories {
-    maven("https://repo.viaversion.com/")
-}
-
 dependencies {
     labyProcessor()
     api(project(":api"))

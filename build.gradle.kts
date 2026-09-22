@@ -38,6 +38,10 @@ subprojects {
     group = rootProject.group
     version = rootProject.version
 
+    repositories {
+        maven("https://repo.viaversion.com/")
+    }
+
     extensions.findByType(JavaPluginExtension::class.java)?.apply {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
