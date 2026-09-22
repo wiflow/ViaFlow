@@ -1,41 +1,34 @@
 import net.labymod.labygradle.common.extension.LabyModAnnotationProcessorExtension.ReferenceType
 
-plugins {
-    id("com.gradleup.shadow") version "9.0.0-beta4"
-}
-
 repositories {
     maven("https://repo.viaversion.com/")
-    maven("https://repo.lenni0451.net/releases/")
-    maven("https://repo.lenni0451.net/snapshots/")
-    mavenCentral()
 }
-
-val shadedVia: Configuration by configurations.creating
 
 dependencies {
     labyProcessor()
     api(project(":api"))
 
-    // Netty (provided by Minecraft at runtime)
-    compileOnly("io.netty:netty-all:4.1.97.Final")
+    addonMavenDependency("com.viaversion:viaversion-common:5.12.0")
+    addonMavenDependency("com.viaversion:viabackwards-common:5.12.0")
+    addonMavenDependency("com.viaversion:viarewind-common:4.2.0")
 
-    // Use the shaded ViaVersion module with Guava relocated
-    val shadedJar = rootProject.file("via-shaded/build/libs/via-shaded.jar")
-    api(files(shadedJar))
-    shadedVia(files(shadedJar))
+    // Provided by Minecraft at runtime. 1.8.9 and 1.12.2 ship Netty 4.0, so 4.1-only API
+    // must stay inside classes that are only loaded on newer versions.
+    compileOnly("io.netty:netty-all:4.1.118.Final")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.13.4")
+    testRuntimeOnly("com.google.guava:guava:17.0")
 }
 
 labyModAnnotationProcessor {
     referenceType = ReferenceType.DEFAULT
 }
 
-tasks.jar {
-    dependsOn(tasks.shadowJar)
-    enabled = false
-}
-
-tasks.shadowJar {
-    configurations = listOf(shadedVia)
-    archiveClassifier.set("")
+tasks.test {
+    useJUnitPlatform()
+    systemProperty(
+        "viaflow.minecraftVersions",
+        providers.gradleProperty("net.labymod.minecraft-versions").get()
+    )
 }
