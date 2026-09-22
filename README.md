@@ -1,70 +1,48 @@
 # ViaFlow [![CodeFactor](https://www.codefactor.io/repository/github/wiflow/viaflow/badge)](https://www.codefactor.io/repository/github/wiflow/viaflow)
-A LabyMod 4 addon that integrates ViaVersion protocol translation, allowing you to connect to Minecraft servers running any version from 1.8.9 to 1.21.x.
+A LabyMod 4 addon that lets you join servers running other Minecraft versions, using ViaVersion, ViaBackwards and ViaRewind.
 
 ## Features
 
-- **Cross-Version Connectivity**: Connect to servers running older or newer Minecraft versions
-- **Version Selection**: Manually select target server version
-- **F3 Debug Display**: Show protocol version information in debug screen
-- **Full ViaVersion Suite**: Includes ViaVersion, ViaBackwards, ViaRewind, and ViaLegacy
+- Pick the server version in the server list, in the addon settings or with `/viaflow <version>`
+- Every release from 1.8 up to the newest version ViaVersion supports
+- Runs on every Minecraft version LabyMod supports, from 1.8.9 to 26.3
+- ViaVersion only starts once you pick another version, so playing natively costs nothing
+- A HUD widget shows the server version while you play on a translated connection
 
-## Supported Versions
+## Usage
 
-### Client Versions (LabyMod)
-- 1.8.9, 1.12.2, 1.16.5, 1.17.1, 1.18.2
-- 1.19.x, 1.20.x, 1.21.x
+1. Open the server list and pick a version in the Server Version dropdown below the buttons.
+2. Join the server.
 
-### Server Versions (Connect To)
-- 1.8.x through 1.21.x
-- Legacy versions via ViaLegacy
-
-## Installation
-
-1. Download the latest ViaFlow release
-2. Place the `.jar` file in your LabyMod addons folder
-3. Restart LabyMod
-4. Configure via LabyMod settings or `/viaflow` command
+The version resets to native every time the game starts.
 
 ## Commands
 
-- `/viaflow` - Show current version info
-- `/viaflow list` - List all supported versions
-- `/viaflow <version>` - Set target version (e.g., `/viaflow 1.8.9`)
-- `/viaflow help` - Show command help
+- `/viaflow` shows your client version and the version you connect as
+- `/viaflow <version>` connects as that version from the next join, for example `/viaflow 1.8.9`
+- `/viaflow native` connects natively again
+- `/viaflow list` lists every version
 
-## Configuration
+## Known limitations
 
-Access ViaFlow settings through LabyMod's addon settings:
-
-- **Enable ViaFlow**: Toggle protocol translation
-- **Target Version**: Select server version (Native uses client version)
-- **Show Version in F3**: Display version info in debug screen
-- **Verify Session (Old Versions)**: Authentication for pre-1.7 servers
-- **BetaCraft Authentication**: Support for classic servers
+- The server list pings servers with your client version, so servers on other versions show up as incompatible there. Joining them works.
+- With a 1.21.4 or newer client, pick block does nothing on servers running 1.21.3 or older.
+- The first start after installing needs an internet connection: LabyMod downloads ViaVersion, ViaBackwards and ViaRewind from repo.viaversion.com.
 
 ## Building
 
 ```bash
-./gradlew build
+./gradlew build createReleaseJar
 ```
 
-The compiled addon will be in `build/libs/`.
+The addon is the jar ending in `-release.jar` in `build/libs/`.
 
 ## Credits
 
-- [ViaVersion](https://github.com/ViaVersion/ViaVersion) - Core protocol translation
-- [ViaBackwards](https://github.com/ViaVersion/ViaBackwards) - Newer to older version support
-- [ViaRewind](https://github.com/ViaVersion/ViaRewind) - 1.9+ to 1.8.x support
-- [ViaLegacy](https://github.com/ViaVersion/ViaLegacy) - Legacy version support
-- [ViaLoader](https://github.com/RaphiMC/ViaLoader) - ViaVersion integration library
-- [ViaForge](https://github.com/ViaVersion/ViaForge) - Reference implementation
-- [LabyMod](https://labymod.net/) - Client platform
+- [ViaVersion](https://github.com/ViaVersion/ViaVersion), [ViaBackwards](https://github.com/ViaVersion/ViaBackwards) and [ViaRewind](https://github.com/ViaVersion/ViaRewind) do the protocol translation
+- [ViaFabricPlus](https://github.com/ViaVersion/ViaFabricPlus) showed how to run it on the client
+- [LabyMod](https://labymod.net/)
 
 ## License
 
-This project uses code and libraries from the ViaVersion project family.
-See individual projects for their respective licenses.
-
-## Author
-
-WiFlow
+GPL-3.0, like ViaVersion, ViaBackwards and ViaRewind. See [LICENSE](LICENSE).
