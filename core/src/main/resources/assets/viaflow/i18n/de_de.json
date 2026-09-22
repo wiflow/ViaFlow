@@ -13,7 +13,7 @@
       }
     },
     "connect": {
-      "starting": "ViaVersion startet noch. Versuche es gleich noch einmal.",
+      "starting": "ViaVersion startet noch. Du trittst bei, sobald es bereit ist.",
       "failed": "ViaVersion konnte nicht starten. Details stehen im Spiel-Log.",
       "unsupportedClient": "ViaFlow unterstützt Minecraft %s noch nicht."
     },
