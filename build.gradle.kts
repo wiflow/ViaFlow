@@ -16,8 +16,6 @@ labyMod {
             runs {
                 getByName("client") {
                     // devLogin = true
-                    jvmArgs("-Xmx4G")
-                    jvmArgs("-Xms2G")
                 }
             }
         }
@@ -27,8 +25,8 @@ labyMod {
         namespace = "viaflow"
         displayName = "ViaFlow"
         author = "wiflow"
-        description = "Connect to any Minecraft server version from 1.8.9 to 1.21.x using ViaVersion protocol translation"
-        minecraftVersion = "*"
+        description = "Join servers running other Minecraft versions, powered by ViaVersion"
+        minecraftVersion = "1.8.9,1.12.2,1.16.5<26.3"
         version = rootProject.version.toString()
     }
 }
@@ -39,4 +37,9 @@ subprojects {
 
     group = rootProject.group
     version = rootProject.version
+
+    extensions.findByType(JavaPluginExtension::class.java)?.apply {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
 }
