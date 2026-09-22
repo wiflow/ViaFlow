@@ -1,13 +1,14 @@
 package dev.wiflow.viaflow.commands;
 
-import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import dev.wiflow.viaflow.ViaFlowAddon;
-import dev.wiflow.viaflow.ViaFlowCommon;
+import dev.wiflow.viaflow.version.NativeVersion;
+import dev.wiflow.viaflow.version.SelectableVersions;
+import dev.wiflow.viaflow.version.TargetVersions;
+import java.util.List;
 import net.labymod.api.client.chat.command.Command;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
-import java.util.Set;
 
 public class ViaFlowCommand extends Command {
 
@@ -19,104 +20,66 @@ public class ViaFlowCommand extends Command {
     }
 
     @Override
-    public boolean execute(String prefix, String[] args) {
-        if (args.length == 0) {
-            showInfo();
+    public boolean execute(String prefix, String[] arguments) {
+        if (arguments.length == 0) {
+            this.showStatus();
             return true;
         }
 
-        String subCommand = args[0].toLowerCase();
-
-        switch (subCommand) {
-            case "list" -> showVersionList();
-            case "info" -> showInfo();
-            case "help" -> showHelp();
-            default -> {
-                ProtocolVersion version = parseVersion(args[0]);
-                if (version != null) {
-                    setVersion(version);
-                } else {
-                    displayMessage(Component.text("Unknown version: " + args[0], NamedTextColor.RED));
-                    showHelp();
-                }
+        String argument = arguments[0];
+        if (argument.equalsIgnoreCase("list")) {
+            this.showVersions();
+        } else if (argument.equalsIgnoreCase("help")) {
+            this.displayMessage(Component.translatable("viaflow.command.usage", NamedTextColor.GRAY));
+        } else if (argument.equalsIgnoreCase(TargetVersions.NATIVE)) {
+            this.select(null);
+        } else {
+            ProtocolVersion version = SelectableVersions.find(argument);
+            if (version == null) {
+                this.displayMessage(Component.translatable("viaflow.command.unknown",
+                    NamedTextColor.RED, Component.text(argument)));
+            } else {
+                this.select(version);
             }
         }
-
         return true;
     }
 
-    private void showInfo() {
-        ProtocolVersion nativeVersion = ViaFlowCommon.getNativeVersion();
-        ProtocolVersion targetVersion = ViaFlowCommon.getInstance().getTargetVersion();
-
-        displayMessage(Component.text("=== ViaFlow ===", NamedTextColor.GOLD));
-        displayMessage(Component.text("Client: ", NamedTextColor.GRAY)
-            .append(Component.text(nativeVersion.getName(), NamedTextColor.GREEN)));
-        displayMessage(Component.text("Target: ", NamedTextColor.GRAY)
-            .append(Component.text(targetVersion.getName(), NamedTextColor.AQUA)));
-        displayMessage(Component.text("Enabled: ", NamedTextColor.GRAY)
-            .append(Component.text(addon.configuration().enabled().get() ? "Yes" : "No",
-                addon.configuration().enabled().get() ? NamedTextColor.GREEN : NamedTextColor.RED)));
+    private void select(ProtocolVersion version) {
+        this.addon.targetVersions().set(version);
+        this.displayMessage(Component.translatable("viaflow.command.selected",
+            NamedTextColor.GREEN, this.describeTarget()));
     }
 
-    private void showVersionList() {
-        Set<ProtocolVersion> versions = Via.getManager().getProtocolManager().getSupportedVersions();
+    private void showStatus() {
+        if (!this.addon.configuration().enabled().get()) {
+            this.displayMessage(Component.translatable("viaflow.command.disabled", NamedTextColor.RED));
+            return;
+        }
 
-        displayMessage(Component.text("=== Supported Versions ===", NamedTextColor.GOLD));
+        this.displayMessage(Component.translatable("viaflow.command.status", NamedTextColor.GRAY,
+            Component.text(NativeVersion.get().getName(), NamedTextColor.WHITE), this.describeTarget()));
+    }
 
-        StringBuilder sb = new StringBuilder();
-        int count = 0;
+    private void showVersions() {
+        List<ProtocolVersion> versions = SelectableVersions.all();
+        StringBuilder names = new StringBuilder();
         for (ProtocolVersion version : versions) {
-            if (count > 0) sb.append(", ");
-            sb.append(version.getName());
-            count++;
-            if (count % 8 == 0) {
-                displayMessage(Component.text(sb.toString(), NamedTextColor.GRAY));
-                sb = new StringBuilder();
+            if (names.length() > 0) {
+                names.append(", ");
             }
+            names.append(version.getName());
         }
-
-        if (sb.length() > 0) {
-            displayMessage(Component.text(sb.toString(), NamedTextColor.GRAY));
-        }
-
-        displayMessage(Component.text("Total: " + versions.size() + " versions", NamedTextColor.GREEN));
+        this.displayMessage(Component.translatable("viaflow.command.list", NamedTextColor.GRAY,
+            Component.text(names.toString(), NamedTextColor.WHITE)));
     }
 
-    private void showHelp() {
-        displayMessage(Component.text("=== ViaFlow Commands ===", NamedTextColor.GOLD));
-        displayMessage(Component.text("/viaflow", NamedTextColor.AQUA)
-            .append(Component.text(" - Show info", NamedTextColor.GRAY)));
-        displayMessage(Component.text("/viaflow list", NamedTextColor.AQUA)
-            .append(Component.text(" - List versions", NamedTextColor.GRAY)));
-        displayMessage(Component.text("/viaflow <version>", NamedTextColor.AQUA)
-            .append(Component.text(" - Set target version", NamedTextColor.GRAY)));
-    }
-
-    private void setVersion(ProtocolVersion version) {
-        ViaFlowCommon.getInstance().setTargetVersion(version);
-        displayMessage(Component.text("Target version: ", NamedTextColor.GREEN)
-            .append(Component.text(version.getName(), NamedTextColor.AQUA)));
-        displayMessage(Component.text("Reconnect to apply.", NamedTextColor.YELLOW));
-    }
-
-    private ProtocolVersion parseVersion(String input) {
-        for (ProtocolVersion version : Via.getManager().getProtocolManager().getSupportedVersions()) {
-            if (version.getName().equalsIgnoreCase(input)) {
-                return version;
-            }
+    private Component describeTarget() {
+        ProtocolVersion target = this.addon.targetVersions().current();
+        if (target == null) {
+            return Component.translatable("viaflow.settings.targetVersion.native", NamedTextColor.WHITE,
+                Component.text(NativeVersion.get().getName()));
         }
-
-        if (!input.startsWith("1.")) {
-            return parseVersion("1." + input);
-        }
-
-        for (ProtocolVersion version : Via.getManager().getProtocolManager().getSupportedVersions()) {
-            if (version.getName().toLowerCase().contains(input.toLowerCase())) {
-                return version;
-            }
-        }
-
-        return null;
+        return Component.text(target.getName(), NamedTextColor.WHITE);
     }
 }

@@ -1,16 +1,20 @@
 package dev.wiflow.viaflow.widgets;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import dev.wiflow.viaflow.ViaFlowAddon;
-import dev.wiflow.viaflow.ViaFlowCommon;
+import dev.wiflow.viaflow.translation.ConnectionHooks;
+import dev.wiflow.viaflow.version.NativeVersion;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidget;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextHudWidgetConfig;
 import net.labymod.api.client.gui.hud.hudwidget.text.TextLine;
 
+/**
+ * Shows the server version the current connection is translated to. Hidden while playing natively.
+ */
 public class ViaFlowHudWidget extends TextHudWidget<TextHudWidgetConfig> {
 
-    private TextLine versionLine;
-    private TextLine statusLine;
+    private TextLine line;
+    private ProtocolVersion shownTarget;
 
     public ViaFlowHudWidget() {
         super("viaflow_version");
@@ -19,35 +23,26 @@ public class ViaFlowHudWidget extends TextHudWidget<TextHudWidgetConfig> {
     @Override
     public void load(TextHudWidgetConfig config) {
         super.load(config);
-        this.versionLine = createLine("Version", "---");
-        this.statusLine = createLine("Status", "---");
+        this.shownTarget = ConnectionHooks.activeTarget();
+        this.line = this.createLine(Component.translatable("viaflow.hudWidget.viaflow_version.server"),
+            describe(this.shownTarget));
     }
 
     @Override
     public void onTick(boolean isEditorContext) {
-        if (ViaFlowAddon.getInstance() == null || ViaFlowCommon.getInstance() == null) {
-            this.versionLine.updateAndFlush("Not initialized");
-            this.statusLine.updateAndFlush("---");
-            return;
+        ProtocolVersion target = ConnectionHooks.activeTarget();
+        if (target != this.shownTarget) {
+            this.shownTarget = target;
+            this.line.updateAndFlush(describe(target));
         }
+    }
 
-        if (!ViaFlowAddon.getInstance().configuration().enabled().get()) {
-            this.versionLine.updateAndFlush("Disabled");
-            this.statusLine.updateAndFlush("---");
-            return;
-        }
+    @Override
+    public boolean isVisibleInGame() {
+        return ConnectionHooks.activeTarget() != null;
+    }
 
-        ProtocolVersion targetVersion = ViaFlowCommon.getInstance().getTargetVersion();
-        ProtocolVersion nativeVersion = ViaFlowCommon.getNativeVersion();
-
-        this.versionLine.updateAndFlush(targetVersion.getName());
-
-        if (ViaFlowCommon.getInstance().isTranslationActive()) {
-            this.statusLine.updateAndFlush(nativeVersion.getName() + " -> " + targetVersion.getName());
-        } else if (targetVersion.equals(nativeVersion)) {
-            this.statusLine.updateAndFlush("Native");
-        } else {
-            this.statusLine.updateAndFlush("Ready");
-        }
+    private static String describe(ProtocolVersion target) {
+        return (target == null ? NativeVersion.get() : target).getName();
     }
 }
