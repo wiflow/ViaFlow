@@ -21,6 +21,11 @@ labyModAnnotationProcessor {
     referenceType = ReferenceType.DEFAULT
 }
 
+// LabyMod's annotation processor only works on the main source set.
+tasks.compileTestJava {
+    options.compilerArgs.add("-proc:none")
+}
+
 tasks.test {
     useJUnitPlatform()
     systemProperty(
