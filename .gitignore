@@ -57,3 +57,7 @@ labymod4-api-wiki/
 
 # Test
 test-servers/
+
+# Files LabyGradle generates into the source sets on every build
+.assetsroot
+resources_index.json
