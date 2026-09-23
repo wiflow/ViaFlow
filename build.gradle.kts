@@ -6,7 +6,7 @@ plugins {
 val versions = providers.gradleProperty("net.labymod.minecraft-versions").get().split(";")
 
 group = "dev.wiflow.viaflow"
-version = providers.environmentVariable("VERSION").getOrElse("1.0.0")
+version = providers.environmentVariable("VERSION").getOrElse("2.0.0")
 
 labyMod {
     defaultPackageName = "dev.wiflow.viaflow"
