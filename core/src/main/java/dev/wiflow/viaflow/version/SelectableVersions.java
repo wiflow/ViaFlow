@@ -37,6 +37,20 @@ public final class SelectableVersions {
         return version != null && version.isKnown() && isSelectable(version) ? version : null;
     }
 
+    /**
+     * Returns the version to connect as to a server that answered a ping from this client with
+     * the given protocol. Returns null to connect natively: when the server accepts the client's
+     * own version or reports one that can't be picked.
+     */
+    public static ProtocolVersion forServer(ProtocolVersion nativeVersion, int serverProtocol) {
+        if (serverProtocol == nativeVersion.getVersion() || !ProtocolVersion.isRegistered(serverProtocol)) {
+            return null;
+        }
+
+        ProtocolVersion version = ProtocolVersion.getProtocol(serverProtocol);
+        return isSelectable(version) ? version : null;
+    }
+
     private static boolean isSelectable(ProtocolVersion version) {
         return version.getVersionType() == VersionType.RELEASE
             && version.newerThanOrEqualTo(ProtocolVersion.v1_8);

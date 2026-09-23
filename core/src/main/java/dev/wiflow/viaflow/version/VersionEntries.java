@@ -12,7 +12,8 @@ public final class VersionEntries implements DropdownEntries<String> {
     public List<String> entries() {
         ProtocolVersion nativeVersion = NativeVersion.get();
         List<ProtocolVersion> versions = SelectableVersions.all();
-        List<String> entries = new ArrayList<>(versions.size() + 1);
+        List<String> entries = new ArrayList<>(versions.size() + 2);
+        entries.add(TargetVersions.AUTO);
         entries.add(TargetVersions.NATIVE);
         for (ProtocolVersion version : versions) {
             if (!version.equals(nativeVersion)) {
@@ -24,6 +25,9 @@ public final class VersionEntries implements DropdownEntries<String> {
 
     @Override
     public Component displayName(String entry) {
+        if (TargetVersions.AUTO.equals(entry)) {
+            return Component.translatable("viaflow.settings.targetVersion.auto");
+        }
         if (TargetVersions.NATIVE.equals(entry)) {
             return Component.translatable("viaflow.settings.targetVersion.native",
                 Component.text(NativeVersion.get().getName()));

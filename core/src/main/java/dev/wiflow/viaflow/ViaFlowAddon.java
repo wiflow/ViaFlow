@@ -18,9 +18,10 @@ public class ViaFlowAddon extends LabyAddon<ViaFlowConfiguration> {
 
     @Override
     protected void enable() {
-        // Every session starts native, so ViaVersion only loads once another version is picked.
+        // Every session starts on auto, so ViaVersion only loads once a server needs another
+        // version or one is picked.
         ViaFlowConfiguration configuration = this.configuration();
-        configuration.targetVersion().set(TargetVersions.NATIVE);
+        configuration.targetVersion().set(TargetVersions.AUTO);
         this.targetVersions = new TargetVersions(configuration.targetVersion());
         configuration.targetVersion().addChangeListener(() -> {
             if (this.targetVersions.current() != null) {

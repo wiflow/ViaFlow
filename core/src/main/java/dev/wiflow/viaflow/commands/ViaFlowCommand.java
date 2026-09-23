@@ -31,6 +31,9 @@ public class ViaFlowCommand extends Command {
             this.showVersions();
         } else if (argument.equalsIgnoreCase("help")) {
             this.displayMessage(Component.translatable("viaflow.command.usage", NamedTextColor.GRAY));
+        } else if (argument.equalsIgnoreCase(TargetVersions.AUTO)) {
+            this.addon.targetVersions().setAuto();
+            this.showSelected();
         } else if (argument.equalsIgnoreCase(TargetVersions.NATIVE)) {
             this.select(null);
         } else {
@@ -47,6 +50,10 @@ public class ViaFlowCommand extends Command {
 
     private void select(ProtocolVersion version) {
         this.addon.targetVersions().set(version);
+        this.showSelected();
+    }
+
+    private void showSelected() {
         this.displayMessage(Component.translatable("viaflow.command.selected",
             NamedTextColor.GREEN, this.describeTarget()));
     }
@@ -75,6 +82,10 @@ public class ViaFlowCommand extends Command {
     }
 
     private Component describeTarget() {
+        if (this.addon.targetVersions().isAuto()) {
+            return Component.translatable("viaflow.settings.targetVersion.auto", NamedTextColor.WHITE);
+        }
+
         ProtocolVersion target = this.addon.targetVersions().current();
         if (target == null) {
             return Component.translatable("viaflow.settings.targetVersion.native", NamedTextColor.WHITE,

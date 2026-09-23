@@ -8,17 +8,20 @@
       },
       "targetVersion": {
         "name": "Serverversion",
-        "description": "Die Serverversion, als die verbunden wird. Wird bei jedem Spielstart auf nativ zurückgesetzt.",
+        "description": "Die Serverversion, als die verbunden wird. Automatisch nutzt die Version, die der Server meldet. Wird bei jedem Spielstart auf Automatisch zurückgesetzt.",
+        "auto": "Automatisch",
         "native": "Nativ (%s)"
       }
     },
     "connect": {
+      "detecting": "Die Serverversion wird geprüft. Du trittst gleich bei.",
+      "retrying": "Der Server hat deine Version abgelehnt. Du trittst in ein paar Sekunden erneut als %s bei.",
       "starting": "ViaVersion startet noch. Du trittst bei, sobald es bereit ist.",
       "failed": "ViaVersion konnte nicht starten. Details stehen im Spiel-Log.",
       "unsupportedClient": "ViaFlow unterstützt Minecraft %s noch nicht."
     },
     "command": {
-      "usage": "Verwendung: /viaflow [Version|native|list]",
+      "usage": "Verwendung: /viaflow [Version|auto|native|list]",
       "unknown": "Unbekannte Version %s. /viaflow list zeigt alle Versionen.",
       "selected": "Ab dem nächsten Beitritt wird als %s verbunden.",
       "disabled": "ViaFlow ist in den Einstellungen ausgeschaltet.",

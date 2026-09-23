@@ -15,7 +15,7 @@ public class ViaFlowConfiguration extends AddonConfig {
     private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
     @DropdownSetting(entries = VersionEntries.class)
-    private final ConfigProperty<String> targetVersion = new ConfigProperty<>(TargetVersions.NATIVE);
+    private final ConfigProperty<String> targetVersion = new ConfigProperty<>(TargetVersions.AUTO);
 
     @Override
     public ConfigProperty<Boolean> enabled() {

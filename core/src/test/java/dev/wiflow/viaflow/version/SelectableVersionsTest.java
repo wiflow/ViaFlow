@@ -42,4 +42,25 @@ class SelectableVersionsTest {
         assertNull(SelectableVersions.find("1.7.10"));
         assertNull(SelectableVersions.find("banana"));
     }
+
+    @Test
+    void connectsNativelyToServersThatAcceptTheClientVersion() {
+        assertNull(SelectableVersions.forServer(ProtocolVersion.v1_8, ProtocolVersion.v1_8.getVersion()));
+        assertNull(SelectableVersions.forServer(ProtocolVersion.v26_2, ProtocolVersion.v26_2.getVersion()));
+    }
+
+    @Test
+    void connectsAsTheVersionTheServerReports() {
+        assertEquals(ProtocolVersion.v26_2,
+            SelectableVersions.forServer(ProtocolVersion.v1_8, ProtocolVersion.v26_2.getVersion()));
+        assertEquals(ProtocolVersion.v1_8,
+            SelectableVersions.forServer(ProtocolVersion.v26_2, ProtocolVersion.v1_8.getVersion()));
+    }
+
+    @Test
+    void connectsNativelyWhenTheReportedVersionCannotBePicked() {
+        assertNull(SelectableVersions.forServer(ProtocolVersion.v1_8, -1));
+        assertNull(SelectableVersions.forServer(ProtocolVersion.v1_8, 123456));
+        assertNull(SelectableVersions.forServer(ProtocolVersion.v26_2, ProtocolVersion.v1_7_6.getVersion()));
+    }
 }
