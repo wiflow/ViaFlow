@@ -18,7 +18,8 @@
       "retrying": "Der Server hat deine Version abgelehnt. Du trittst in ein paar Sekunden erneut als %s bei.",
       "starting": "ViaVersion startet noch. Du trittst bei, sobald es bereit ist.",
       "failed": "ViaVersion konnte nicht starten. Details stehen im Spiel-Log.",
-      "unsupportedClient": "ViaFlow unterstützt Minecraft %s noch nicht."
+      "unsupportedClient": "ViaFlow unterstützt Minecraft %s noch nicht.",
+      "turnedOff": "Dieser Server hat ViaFlow ausgeschaltet, daher hast du ihn verlassen. Tritt erneut bei, um mit deiner eigenen Version zu spielen."
     },
     "command": {
       "usage": "Verwendung: /viaflow [Version|auto|native|list]",

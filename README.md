@@ -16,6 +16,8 @@ Join the server. With the Server Version set to Auto, ViaFlow pings the server f
 
 To force a version, pick it in the Server Version dropdown below the server list buttons before joining. The version resets to Auto every time the game starts.
 
+Servers can turn ViaFlow off through LabyMod's server API. A translated connection can't switch back to your own version, so ViaFlow leaves such a server and joins it with your own version for the rest of the session.
+
 ## Commands
 
 - `/viaflow` shows your client version and the version you connect as

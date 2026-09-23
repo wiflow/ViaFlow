@@ -10,6 +10,7 @@ import dev.wiflow.viaflow.version.ServerDetails;
 import dev.wiflow.viaflow.version.ServerMemory;
 import dev.wiflow.viaflow.version.ServerVersionDetector;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,7 @@ import net.labymod.api.event.client.network.server.ServerDisconnectEvent;
 import net.labymod.api.event.client.network.server.ServerJoinEvent;
 import net.labymod.api.event.client.network.server.ServerKickEvent;
 import net.labymod.api.event.client.network.server.ServerLoginEvent;
+import net.labymod.api.notification.Notification;
 
 public class ConnectionListener {
 
@@ -37,6 +39,8 @@ public class ConnectionListener {
 
     // What Auto joins each server as for the rest of the session.
     private final Map<ServerAddress, AutoChoice> choices = new ConcurrentHashMap<>();
+    // Servers that turned ViaFlow off, joined natively for the rest of the session.
+    private final Set<ServerAddress> turnedOffBy = ConcurrentHashMap.newKeySet();
 
     private volatile Attempt attempt;
     private volatile ServerAddress currentServer;
@@ -45,6 +49,7 @@ public class ConnectionListener {
         this.addon = addon;
         this.memory = new ServerMemory(Constants.Files.CONFIGS.resolve("viaflow").resolve("servers.json"),
             addon.logger());
+        addon.configuration().enabled().addChangeListener(this::onEnabledChanged);
     }
 
     @Subscribe
@@ -52,7 +57,7 @@ public class ConnectionListener {
         ConnectionHooks.prepare(null);
         this.attempt = null;
         this.currentServer = event.serverData().address();
-        if (!this.addon.configuration().enabled().get()) {
+        if (!this.addon.configuration().enabled().get() || this.turnedOffBy.contains(this.currentServer)) {
             return;
         }
 
@@ -159,6 +164,29 @@ public class ConnectionListener {
     @Subscribe
     public void onServerDisconnect(ServerDisconnectEvent event) {
         ConnectionHooks.onDisconnect();
+    }
+
+    /**
+     * Servers turn addons off through LabyMod's server API after the join, but a translated
+     * connection can't switch back to this client's version. ViaFlow leaves such a server instead
+     * and joins it natively for the rest of the session. Turning ViaFlow off in its settings takes
+     * effect from the next join.
+     */
+    private void onEnabledChanged(Boolean enabled) {
+        ServerAddress server = this.currentServer;
+        if (enabled || server == null || ConnectionHooks.activeTarget() == null
+            || !Laby.labyAPI().addonService().isForceDisabled(this.addon.addonInfo().getNamespace())) {
+            return;
+        }
+
+        this.turnedOffBy.add(server);
+        Laby.labyAPI().minecraft().executeOnRenderThread(() -> {
+            Laby.labyAPI().serverController().leaveServer();
+            Laby.labyAPI().notificationController().push(Notification.builder()
+                .title(Component.translatable("viaflow.settings.name"))
+                .text(Component.translatable("viaflow.connect.turnedOff"))
+                .build());
+        });
     }
 
     /**

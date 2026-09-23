@@ -18,7 +18,8 @@
       "retrying": "The server turned your version away. Joining again as %s in a few seconds.",
       "starting": "ViaVersion is still starting. Joining as soon as it is ready.",
       "failed": "ViaVersion failed to start. The game log has the details.",
-      "unsupportedClient": "ViaFlow does not support Minecraft %s yet."
+      "unsupportedClient": "ViaFlow does not support Minecraft %s yet.",
+      "turnedOff": "This server turned ViaFlow off, so you left it. Join again to play with your own version."
     },
     "command": {
       "usage": "Usage: /viaflow [version|auto|native|list]",
